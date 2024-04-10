@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  typesense-dashboard:
+    image: ghcr.io/bfritscher/typesense-dashboard:latest
+    container_name: typesense-dashboard
+    ports:
+      - "80:80"
+  node1:
+    restart: always
+    volumes:
+      - ./data/node1:/data
+    image: typesense/typesense:26.0
+    ports:
+      - "7001:8108"
+    container_name: node1
+    command: '--data-dir /data --api-key=xyz --nodes=/data/nodes --peering-port 8107 --api-port 8108 --enable-cors'
+  node2:
+    restart: always
+    ports:
+      - "7002:8108"
+    volumes:
+      - ./data/node2:/data
+    image: typesense/typesense:26.0
+    container_name: node2
+    command: '--data-dir /data --api-key=xyz --nodes=/data/nodes --peering-port 8107 --api-port 8108 --enable-cors'
+  node3:
+    restart: always
+    ports:
+      - "7003:8108"
+    volumes:
+      - ./data/node3:/data
+    image: typesense/typesense:26.0
+    container_name: node3
+    command: '--data-dir /data --api-key=xyz --nodes=/data/nodes --peering-port 8107 --api-port 8108 --enable-cors'
